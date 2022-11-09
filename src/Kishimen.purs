@@ -11,7 +11,7 @@ import Data.Variant.Internal (class VariantTags)
 import Partial.Unsafe (unsafeCrashWith)
 import Prim.Row as Row
 import Prim.RowList as RL
-import Type.Prelude (class IsSymbol, SProxy(..))
+import Type.Prelude (class IsSymbol, Proxy(..))
 
 -- | Convert a generic sum into a variant
 genericSumToVariant :: forall a rep r
@@ -45,13 +45,13 @@ instance genericSumToVariantConstructor ::
   genericSumToVariantImpl (GR.Constructor a) =
     Variant.inj nameS value
     where
-      nameS = SProxy :: _ name
+      nameS = Proxy :: _ name
       value = genericSumToVariantArgImpl a
   variantImplToGenericSumImpl v = do
     x :: ty <- Variant.prj nameS v
     Just $ GR.Constructor $ variantArgImplToGenericSumImpl x
     where
-      nameS = SProxy :: _ name
+      nameS = Proxy :: _ name
 
 instance genericSumToVariantSum ::
   ( GenericSumToVariant a ra
